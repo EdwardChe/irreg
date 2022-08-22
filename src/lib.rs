@@ -1,59 +1,102 @@
-
-extern crate rand;
 extern crate ansi_term;
+extern crate rand;
 
-use std::io;
-use rand::distributions::{Distribution, Uniform};
 use ansi_term::Colour;
+use rand::distributions::{Distribution, Uniform};
+use std::io;
 
-
-pub fn choose_set_verbs (list_verbs: Vec<[&'static str; 3]>) -> [&'static str; 3] {   
+pub fn choose_set_verbs(list_verbs: Vec<[&'static str; 3]>) -> [&'static str; 3] {
     let mut index_set = rand::thread_rng();
-    let die_1 = Uniform::from(0..117);
-    let index_verbs_set: usize = die_1.sample(&mut index_set); 
+    let die_1 = Uniform::from(0..list_verbs.len());
+    let index_verbs_set: usize = die_1.sample(&mut index_set);
     let result_set_verbs = list_verbs[index_verbs_set];
     result_set_verbs
-
 }
 
-pub fn choose_form_verb(set_verb:[&'static str; 3]) {
-    let mut index_form = rand::thread_rng();
-    let die_2 = Uniform::from(0..3);
-    let index_verbs_form = die_2.sample(&mut index_form); 
-
+pub fn choose_form_verb(set_verb: [&'static str; 3], index_verbs_form: usize) {
     println!("=================================================");
 
     let pointer = "-> ? <-";
 
     match index_verbs_form {
-        0 => println!("         {}  --  {}  --  {}",Colour::Red.italic().paint(pointer), Colour::Cyan.italic().paint(set_verb[1]), Colour::Cyan.italic().paint(set_verb[2])),
-        1 => println!("         {}  --  {}  --  {}", Colour::Cyan.italic().paint(set_verb[0]), Colour::Red.italic().paint(pointer), Colour::Cyan.italic().paint(set_verb[2])),
-        2 => println!("         {}  --  {}  --  {}", Colour::Cyan.italic().paint(set_verb[0]), Colour::Cyan.italic().paint(set_verb[1]), Colour::Red.italic().paint(pointer)),
+        0 => println!(
+            "         {}  --  {}  --  {}",
+            Colour::Red.italic().paint(pointer),
+            Colour::Cyan.italic().paint(set_verb[1]),
+            Colour::Cyan.italic().paint(set_verb[2])
+        ),
+        1 => println!(
+            "         {}  --  {}  --  {}",
+            Colour::Cyan.italic().paint(set_verb[0]),
+            Colour::Red.italic().paint(pointer),
+            Colour::Cyan.italic().paint(set_verb[2])
+        ),
+        2 => println!(
+            "         {}  --  {}  --  {}",
+            Colour::Cyan.italic().paint(set_verb[0]),
+            Colour::Cyan.italic().paint(set_verb[1]),
+            Colour::Red.italic().paint(pointer)
+        ),
         _ => println!("fuck"),
-
     }
-    println!("{}", Colour::Cyan.paint(String::from("-------------------------------------------------")));
-    
-    let mut result_input = String::new();
+    println!(
+        "{}",
+        Colour::Cyan.paint(String::from(
+            "-------------------------------------------------"
+        ))
+    );
+}
+
+pub fn analysis_of_response(
+    result_input: &String,
+    set_verb: [&'static str; 3],
+    index_verbs_form: usize,
+) {
     let yes = "Yes!";
     let no = "No!";
-    
-    io::stdin()
-        .read_line(&mut result_input)
-        .expect(" ");
 
     if result_input.to_lowercase().trim() == set_verb[index_verbs_form] {
-        println!("{}", Colour::Green.paint(String::from("-------------------------------------------------")));
-        println!("{}     {}  --  {}  --  {}", Colour::Green.bold().paint(yes), Colour::Green.italic().paint(set_verb[0]), Colour::Green.italic().paint(set_verb[1]), Colour::Green.italic().paint(set_verb[2]));
+        println!(
+            "{}",
+            Colour::Green.paint(String::from(
+                "-------------------------------------------------"
+            ))
+        );
+        println!(
+            "{}     {}  --  {}  --  {}",
+            Colour::Green.bold().paint(yes),
+            Colour::Green.italic().paint(set_verb[0]),
+            Colour::Green.italic().paint(set_verb[1]),
+            Colour::Green.italic().paint(set_verb[2])
+        );
     } else if result_input.trim() == String::from("") {
-        println!("{}", Colour::Yellow.paint(String::from("-------------------------------------------------")));
-        println!("{}", Colour::Yellow.paint(String::from("Where is the answer?")));
+        println!(
+            "{}",
+            Colour::Yellow.paint(String::from(
+                "-------------------------------------------------"
+            ))
+        );
+        println!(
+            "{}",
+            Colour::Yellow.paint(String::from("Where is the answer?"))
+        );
     } else {
-        println!("{}", Colour::Red.paint(String::from("-------------------------------------------------")));
-        println!("{}      {}  --  {}  --  {}",Colour::Red.bold().paint(no), Colour::Green.italic().paint(set_verb[0]), Colour::Green.italic().paint(set_verb[1]), Colour::Green.italic().paint(set_verb[2]));
+        println!(
+            "{}",
+            Colour::Red.paint(String::from(
+                "-------------------------------------------------"
+            ))
+        );
+        println!(
+            "{}      {}  --  {}  --  {}",
+            Colour::Red.bold().paint(no),
+            Colour::Green.italic().paint(set_verb[0]),
+            Colour::Green.italic().paint(set_verb[1]),
+            Colour::Green.italic().paint(set_verb[2])
+        );
     }
 }
-    
+
 pub fn list_verbs() -> Vec<[&'static str; 3]> {
     vec![
         ["begin", "began", "begun"],
@@ -175,4 +218,3 @@ pub fn list_verbs() -> Vec<[&'static str; 3]> {
         ["light", "lit", "lit"],
     ]
 }
-
