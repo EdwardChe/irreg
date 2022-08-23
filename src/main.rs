@@ -10,7 +10,8 @@ Modes:
     1 - random checking one from three a form each verb
     2 - none
     3 - none
-Enter the mode number.");
+Enter the mode number.
+    * to exit the application, enter \"exit\"");
 
     let mut mode_selection = String::new();
     io::stdin()
@@ -39,17 +40,14 @@ Enter the mode number.");
 
         // quit from app
             if result_input.trim() == "exit" {
-                println!("-------------------------------------------------");
-                println!("Goodbye!");
+                border_printing("|                   Goodbye!                    |");
                 break;
             } else {
                 analysis_of_response(&result_input, result_set_verbs, index_verbs_form); 
             }
         },
         _ => {
-            println!("{}", Colour::Red.paint(String::from("--------------------------------------")));
-            println!("{}", Colour::Red.paint(String::from("| You have entered an invalid value! |")));
-            println!("{}", Colour::Red.paint(String::from("--------------------------------------")));
+            border_printing("|       You have entered an invalid value!      |");
         },
     }  
 }

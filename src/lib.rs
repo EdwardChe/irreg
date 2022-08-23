@@ -3,7 +3,6 @@ extern crate rand;
 
 use ansi_term::Colour;
 use rand::distributions::{Distribution, Uniform};
-use std::io;
 
 pub fn choose_set_verbs(list_verbs: Vec<[&'static str; 3]>) -> [&'static str; 3] {
     let mut index_set = rand::thread_rng();
@@ -51,7 +50,7 @@ pub fn analysis_of_response(
     result_input: &String,
     set_verb: [&'static str; 3],
     index_verbs_form: usize,
-) {
+) { 
     let yes = "Yes!";
     let no = "No!";
 
@@ -95,6 +94,12 @@ pub fn analysis_of_response(
             Colour::Green.italic().paint(set_verb[2])
         );
     }
+}
+
+pub fn border_printing(word: &str) {
+    println!("{}", Colour::Red.paint(String::from("-------------------------------------------------")));
+    println!("{}", Colour::Red.paint(String::from( word )));
+    println!("{}", Colour::Red.paint(String::from("-------------------------------------------------")));
 }
 
 pub fn list_verbs() -> Vec<[&'static str; 3]> {
